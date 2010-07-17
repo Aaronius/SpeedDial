@@ -1,0 +1,39 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace r "com.aaronHardy.speedDial.view.renderers.*";
+@namespace c "com.aaronHardy.speedDial.view.components.*";
+
+@font-face {
+	src: url("/assets/CALIBRI.TTF");
+	fontFamily: Calibri;
+}
+
+s|WindowedApplication,
+s|Window
+{
+	/*skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.WindowSkin");*/
+	backgroundColor: #181818;
+	color: #EEEEEE;
+	chromeColor: #4C4C4C;
+	symbolColor: #FFFFFF;
+	rolloverColor: #666666;
+	selectionColor: #999999;
+	focusColor: #EEEEEE;
+	fontFamily: Calibri;
+}
+
+s|TextInput
+{
+	color:#000000;
+}
+
+r|ContactRenderer
+{
+	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ButtonSkin");
+}
+
+c|Expander
+{
+	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ExpanderSkin");
+}

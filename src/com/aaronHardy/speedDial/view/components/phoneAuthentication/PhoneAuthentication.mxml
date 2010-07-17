@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<s:layout>
+		<s:VerticalLayout gap="10"/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.aaronHardy.speedDial.controller.events.PhoneCredentialsEvent;
+			[Bindable]
+			protected var _extension:String;
+			
+			[Bindable]
+			protected var _pin:String;
+			
+			public function get extension():String
+			{
+				return extensionInput.text;
+			}
+			
+			public function get pin():String
+			{
+				return pinInput.text;
+			}	
+			
+			public function setCredentials(extension:String, pin:String):void
+			{
+				_extension = extension;
+				_pin = pin;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup gap="6" width="100%">
+		<s:Label text="Extension"/>
+		<s:TextInput id="extensionInput" text="{_extension}" width="100%"/>
+	</s:VGroup>
+	<s:VGroup gap="6" width="100%">
+		<s:Label text="PIN"/>	
+		<s:TextInput id="pinInput" text="{_pin}" displayAsPassword="true" width="100%"/>
+	</s:VGroup>
+</s:Group>

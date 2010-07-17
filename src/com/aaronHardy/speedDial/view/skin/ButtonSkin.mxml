@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:transitions>
+		<s:Transition autoReverse="true">
+			<s:AnimateColor targets="{[bgColor, strokeColor, nameLabel, phoneLabel]}" duration="150"/>
+		</s:Transition>
+	</s:transitions>
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:Rect x="0.5" y="0.5" ai:knockout="0" width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor id="bgColor" color="0x131313" color.over="#8eaf1a"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke id="strokeColor" color="0x0c0d0d" color.over="#8eaf1a" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect x.disabled="1.5" right.up="1" y.disabled="1.5" bottom.up="1" width.disabled="100%" left.up="1" height.disabled="100%" top.up="1" right.over="1" left.over="1" top.over="1" bottom.over="1" right.down="1" left.down="1" top.down="1" bottom.down="1">
+		<s:stroke>
+			<s:SolidColorStroke color="0x262626" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Label id="nameLabel" top="5" left="10" right="10" mouseEnabled="false" maxDisplayedLines="1" fontSize="20" color="0xEEEEEE" color.over="#000000" alpha=".9"/>
+	<s:Label id="phoneLabel" bottom="5" left="10" right="10" top="{nameLabel.y + nameLabel.height}" mouseEnabled="false" maxDisplayedLines="1" fontSize="9" color="0xEEEEEE" color.over="#000000" alpha=".9"/>
+	<!--<s:RichText id="labelElement" fontFamily="Myriad Pro" fontSize="11" lineHeight="120%" color="0xBBBBBB" 
+		whiteSpaceCollapse="preserve" kerning="on" ai:knockout="0" d:userLabel="Button" height="13"
+		textAlign="center" horizontalCenter="0" verticalCenter="1" width="100%"></s:RichText>-->
+</s:Skin>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.aaronHardy.speedDial.controller.events.ContactsCredentialsEvent;
+			
+			[Bindable]
+			protected var _username:String;
+			
+			[Bindable]
+			protected var _password:String;
+			
+			public function get username():String
+			{
+				return usernameInput.text;
+			}
+			
+			public function get password():String
+			{
+				return passwordInput.text;
+			}
+			
+			public function setCredentials(username:String, password:String):void
+			{
+				_username = username;
+				_password = password;
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup verticalAlign="middle" width="100%" height="100%" gap="10">
+		<s:VGroup gap="6" width="100%">
+			<s:Label text="Username"/>
+			<s:TextInput id="usernameInput" text="{_username}" width="100%"/>
+		</s:VGroup>
+		<s:VGroup gap="6" width="100%">
+			<s:Label text="Password"/>	
+			<s:TextInput id="passwordInput" text="{_password}" displayAsPassword="true" width="100%"/>
+		</s:VGroup>
+	</s:VGroup>
+</s:Group>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:Expander xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:contactsAuthentication="com.aaronHardy.speedDial.view.components.contactsAuthentication.*" 
+		 xmlns:phoneAuthentication="com.aaronHardy.speedDial.view.components.phoneAuthentication.*"
+		 xmlns:components="com.aaronHardy.speedDial.view.components.*"
+		 toggleLabel="Options" open="true" width="100%">
+	<fx:Script>
+		<![CDATA[
+			import com.aaronHardy.speedDial.controller.events.ContactsCredentialsEvent;
+			import com.aaronHardy.speedDial.controller.events.PhoneCredentialsEvent;
+			[Bindable]
+			protected var _authenticating:Boolean;
+			
+			public function set authenticating(value:Boolean):void
+			{
+				_authenticating = value;
+			}
+			
+			protected function getGoButtonLabel(_authenticating:Boolean):String
+			{
+				return _authenticating ? "Connecting..." : "Go";
+			}
+			
+			protected function authenticate():void
+			{
+				dispatchEvent(new ContactsCredentialsEvent(
+						ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED,
+						contactsAuth.username,
+						contactsAuth.password));
+				dispatchEvent(new PhoneCredentialsEvent(
+						PhoneCredentialsEvent.CREDENTIALS_SAVE_TRIGGERED,
+						phoneAuth.extension,
+						phoneAuth.pin));
+			}
+		]]>
+	</fx:Script>
+	<mx:Form defaultButton="{goButton}" verticalGap="11">
+		<s:HGroup width="100%" gap="10" horizontalAlign="right">
+			<s:Label fontSize="18" text="GMAIL"/>
+			<contactsAuthentication:ContactsAuthentication id="contactsAuth"/>
+		</s:HGroup>
+		<s:HGroup width="100%" gap="10" horizontalAlign="right">
+			<s:Label fontSize="18" text="PHONE"/>
+			<phoneAuthentication:PhoneAuthentication id="phoneAuth"/>
+		</s:HGroup>
+		<s:VGroup horizontalAlign="right" width="100%">
+			<s:Button id="goButton" 
+					  label="{getGoButtonLabel(_authenticating)}"
+					  width="{contactsAuth.width}"
+					  click="authenticate();"
+					  enabled="{!_authenticating}"/>
+		</s:VGroup>
+	</mx:Form>
+</components:Expander>

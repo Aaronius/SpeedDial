@@ -19,9 +19,9 @@ package com.aaronHardy.speedDial.view.components.phoneAuthentication
 			super.onRegister();
 			
 			eventMap.mapListener(
-				eventDispatcher,
-				AppModelEvent.PHONE_CREDENTIALS_CHANGED,
-				model_credentialsChangedHandler);
+					eventDispatcher,
+					AppModelEvent.PHONE_CREDENTIALS_CHANGED,
+					model_credentialsChangedHandler);
 			updateViewCredentials();
 		}
 		

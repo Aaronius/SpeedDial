@@ -6,6 +6,7 @@ package com.aaronHardy.speedDial.view.views.options
 	import com.aaronHardy.speedDial.model.events.AppModelEvent;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
@@ -33,12 +34,10 @@ package com.aaronHardy.speedDial.view.views.options
 					model_contactsChangedHandler);
 			updateViewOpened();
 			
-			view.addEventListener(
-					ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED,
-					redispatch);
-			view.addEventListener(
-					PhoneCredentialsEvent.CREDENTIALS_SAVE_TRIGGERED,
-					redispatch);
+			eventMap.mapListener(
+					view.goButton,
+					MouseEvent.CLICK,
+					goButton_clickHandler);
 		}
 		
 		protected function model_authenticatingChangedHandler(event:AppModelEvent):void
@@ -46,9 +45,16 @@ package com.aaronHardy.speedDial.view.views.options
 			updateViewAuthenticating();
 		}
 		
-		protected function redispatch(event:Event):void
+		protected function goButton_clickHandler(event:Event):void
 		{
-			dispatch(event);
+			eventDispatcher.dispatchEvent(new ContactsCredentialsEvent(
+					ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED,
+					view.contactsAuth.username,
+					view.contactsAuth.password));
+			eventDispatcher.dispatchEvent(new PhoneCredentialsEvent(
+					PhoneCredentialsEvent.CREDENTIALS_SAVE_TRIGGERED,
+					view.phoneAuth.extension,
+					view.phoneAuth.pin));
 		}
 		
 		protected function updateViewAuthenticating():void

@@ -10,6 +10,8 @@ package com.aaronHardy.speedDial.service.contacts
 	import flash.net.URLRequestMethod;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.Sort;
+	import mx.collections.SortField;
 	import mx.utils.StringUtil;
 	
 	import org.robotlegs.mvcs.Actor;
@@ -26,7 +28,7 @@ package com.aaronHardy.speedDial.service.contacts
 				throw new Error('Must authenticate before loading contacts.');
 			}
 			
-			var url:String = 'http://www.google.com/m8/feeds/contacts/default/full';
+			var url:String = 'http://www.google.com/m8/feeds/contacts/default/full?max-results=1000';
 			var request:URLRequest = new URLRequest(url);
 			request.method = URLRequestMethod.GET;
 			request.requestHeaders.push(model.authHeader);
@@ -63,19 +65,24 @@ package com.aaronHardy.speedDial.service.contacts
 			{
 				var title:String = StringUtil.trim(entry.ns_atom::title);
 				var phoneNumber:String = StringUtil.trim(entry.ns_gd::phoneNumber);
-				if (title.length > 0)
+				if (title.length > 0 && phoneNumber.length > 0)
 				{
 					var contact:Contact = new Contact();
 					contact.name = title;
-					
-					if (phoneNumber.length > 0)
-					{
-						contact.phone = phoneNumber;
-					}
-					
+					contact.phone = phoneNumber;
 					contacts.addItem(contact);
 				}
 			}
+			
+			// Sort by name.
+			var nameSortField:SortField = new SortField();
+			nameSortField.name = 'name';
+			
+			var nameSort:Sort = new Sort();
+			nameSort.fields = [nameSortField];
+			
+			contacts.sort = nameSort;
+			contacts.refresh();
 			
 			return contacts;
 		}

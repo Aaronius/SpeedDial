@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:Expander xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" 
+					 xmlns:components="com.aaronHardy.speedDial.view.components.*"
+					 width="100%" toggleLabel="Freeform">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+
+			[Bindable]
+			protected var copiedFromClipboardVisible:Boolean;
+			
+			private var _phoneNumber:String;
+			
+			[Bindable]
+			public function get phoneNumber():String
+			{
+				return _phoneNumber;
+			}
+			
+			public function set phoneNumber(value:String):void
+			{
+				_phoneNumber = value;
+				copiedFromClipboardVisible = true;
+			}
+
+			protected function phoneInput_changeHandler(event:TextOperationEvent):void
+			{
+				copiedFromClipboardVisible = false;
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<mx:Form defaultButton="{goButton}" verticalGap="11">
+		<s:HGroup width="100%" gap="10" horizontalAlign="right">
+			<s:Label fontSize="18" text="CALL" textAlign="right" width="55"/>
+			<s:VGroup gap="6" width="100%">
+				<s:Label text="Phone Number"/>
+				<s:TextInput id="phoneInput" text="{phoneNumber}" 
+						change="phoneInput_changeHandler(event)" width="100%"/>
+				<s:Label id="copiedFromClipboardLabel" text="(copied from clipboard)" fontSize="9"
+						visible="{copiedFromClipboardVisible}" 
+						includeInLayout="{copiedFromClipboardVisible}"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:VGroup horizontalAlign="right" width="100%">
+			<s:Button id="goButton" label="Place Call" enabled="{phoneInput.text.length > 0}" 
+					width="{phoneInput.width}"/>
+		</s:VGroup>
+	</mx:Form>
+</components:Expander>

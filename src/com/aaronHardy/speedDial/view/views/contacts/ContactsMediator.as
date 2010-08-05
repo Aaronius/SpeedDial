@@ -24,7 +24,7 @@ package com.aaronHardy.speedDial.view.views.contacts
 					model_contactsChangedHandler);
 			updateViewContacts();
 			
-			view.addEventListener(
+			eventMap.mapListener(view,
 					CallEvent.CALL_TRIGGERED,
 					view_callTriggeredHandler);
 		}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
+	<s:states>
+		<s:State name="show"/>
+		<s:State name="hide"/>
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition autoReverse="true">
+			<s:Move targets="{[messageGroup]}" duration="200"/>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:Group id="messageGroup" y.show="0" y.hide="{-messageGroup.height}">
+		<s:Rect top="0" right="0" bottom="0" left="0" 
+				bottomLeftRadiusX="5" bottomLeftRadiusY="5" 
+				bottomRightRadiusX="5" bottomRightRadiusY="5">
+			<s:fill>
+				<s:SolidColor color="#a9e833"/>
+			</s:fill>
+		</s:Rect>
+		<s:Label id="messageLabel" top="3" right="5" bottom="3" left="5" color="#000000"/>
+	</s:Group>
+	
+</s:Skin>

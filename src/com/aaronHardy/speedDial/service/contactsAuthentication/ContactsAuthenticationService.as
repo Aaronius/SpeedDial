@@ -5,6 +5,7 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 	
 	import net.nobien.webapis.google.accounts.AccountsService;
 	import net.nobien.webapis.google.accounts.AuthResult;
+	import net.nobien.webapis.google.accounts.ClientLogin;
 	import net.nobien.webapis.google.events.AccountsEvent;
 	
 	import org.robotlegs.mvcs.Actor;
@@ -28,7 +29,12 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 			accountsService = new AccountsService();
 			accountsService.addEventListener(AccountsEvent.AUTH_GET_TOKEN, authGetTokenHandler);
 			accountsService.addEventListener(AccountsEvent.AUTH_FAILURE, authFailureHandler);
-			accountsService.clientLogin.authenticate(username, password, 'cp', 'aaronHardy-speedDial-0.1');
+			accountsService.clientLogin.authenticate(
+					username, 
+					password, 
+					'cp', 
+					'aaronHardy-speedDial-0.1', 
+					ClientLogin.HOSTED_OR_GOOGLE);
 		}
 		
 		protected function authGetTokenHandler(event:AccountsEvent):void

@@ -49,6 +49,8 @@ package com.aaronHardy.speedDial.model
 			}
 		}
 		
+		public var phoneNumberFromClipboard:String;
+		
 		//-------------------------------------------------------------------------
 		
 		public function setContactsCredentials(username:String, password:String):void
@@ -99,6 +101,22 @@ package com.aaronHardy.speedDial.model
 		public function get pin():String
 		{
 			return _pin;
+		}
+		
+		protected var _clipboard:String;
+		
+		public function get clipboard():String
+		{
+			return _clipboard;
+		}
+		
+		public function set clipboard(value:String):void
+		{
+			if (_clipboard != value)
+			{
+				_clipboard = value;
+				dispatch(new AppModelEvent(AppModelEvent.CLIPBOARD_CHANGED));
+			}
 		}
 	}
 }

@@ -3,6 +3,8 @@ package com.aaronHardy.speedDial
 	import com.aaronHardy.speedDial.controller.*;
 	import com.aaronHardy.speedDial.controller.events.*;
 	import com.aaronHardy.speedDial.model.*;
+	import com.aaronHardy.speedDial.service.clipboard.ClipboardService;
+	import com.aaronHardy.speedDial.service.clipboard.IClipboardService;
 	import com.aaronHardy.speedDial.service.contacts.*;
 	import com.aaronHardy.speedDial.service.contactsAuthentication.*;
 	import com.aaronHardy.speedDial.service.contactsCredentials.*;
@@ -11,7 +13,11 @@ package com.aaronHardy.speedDial
 	import com.aaronHardy.speedDial.view.components.contactsAuthentication.*;
 	import com.aaronHardy.speedDial.view.components.phoneAuthentication.PhoneAuthentication;
 	import com.aaronHardy.speedDial.view.components.phoneAuthentication.PhoneAuthenticationMediator;
+	import com.aaronHardy.speedDial.view.components.statusMessage.StatusMessage;
+	import com.aaronHardy.speedDial.view.components.statusMessage.StatusMessageMediator;
 	import com.aaronHardy.speedDial.view.views.contacts.*;
+	import com.aaronHardy.speedDial.view.views.freeform.Freeform;
+	import com.aaronHardy.speedDial.view.views.freeform.FreeformMediator;
 	import com.aaronHardy.speedDial.view.views.options.Options;
 	import com.aaronHardy.speedDial.view.views.options.OptionsMediator;
 	
@@ -26,7 +32,9 @@ package com.aaronHardy.speedDial
 			injector.mapSingletonOf(IContactsService, ContactsService);
 			injector.mapSingletonOf(IContactsCredentialsService, ContactsCredentialsService);
 			injector.mapSingletonOf(IPhoneCredentialsService, PhoneCredentialsService);
+			injector.mapSingletonOf(IClipboardService, ClipboardService);
 			
+			commandMap.mapEvent(StartupEvent.STARTUP, CmdStartClipboardService, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdLoadContactsCredentials, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdLoadPhoneCredentials, StartupEvent, true);
 			commandMap.mapEvent(ContactsCredentialsEvent.CREDENTIALS_LOADED, CmdContactsAuthenticate, ContactsCredentialsEvent);
@@ -40,6 +48,8 @@ package com.aaronHardy.speedDial
 			mediatorMap.mapView(PhoneAuthentication, PhoneAuthenticationMediator);
 			mediatorMap.mapView(Contacts, ContactsMediator);
 			mediatorMap.mapView(Options, OptionsMediator);
+			mediatorMap.mapView(Freeform, FreeformMediator);
+			mediatorMap.mapView(StatusMessage, StatusMessageMediator);
 			
 			dispatchEvent(new StartupEvent(StartupEvent.STARTUP));
 		}

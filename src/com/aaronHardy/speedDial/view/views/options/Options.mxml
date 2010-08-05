@@ -23,33 +23,40 @@
 				return _authenticating ? "Connecting..." : "Go";
 			}
 			
-			protected function authenticate():void
+			public function get username():String
 			{
-				dispatchEvent(new ContactsCredentialsEvent(
-						ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED,
-						contactsAuth.username,
-						contactsAuth.password));
-				dispatchEvent(new PhoneCredentialsEvent(
-						PhoneCredentialsEvent.CREDENTIALS_SAVE_TRIGGERED,
-						phoneAuth.extension,
-						phoneAuth.pin));
+				return contactsAuth.username;
+			}
+			
+			public function get password():String
+			{
+				return contactsAuth.password;
+			}
+			
+			public function get extension():String
+			{
+				return phoneAuth.extension;
+			}
+			
+			public function get pin():String
+			{
+				return phoneAuth.pin;
 			}
 		]]>
 	</fx:Script>
 	<mx:Form defaultButton="{goButton}" verticalGap="11">
 		<s:HGroup width="100%" gap="10" horizontalAlign="right">
-			<s:Label fontSize="18" text="GMAIL"/>
+			<s:Label fontSize="18" text="GMAIL" textAlign="right" width="55"/>
 			<contactsAuthentication:ContactsAuthentication id="contactsAuth"/>
 		</s:HGroup>
 		<s:HGroup width="100%" gap="10" horizontalAlign="right">
-			<s:Label fontSize="18" text="PHONE"/>
+			<s:Label fontSize="18" text="PHONE" textAlign="right" width="55"/>
 			<phoneAuthentication:PhoneAuthentication id="phoneAuth"/>
 		</s:HGroup>
 		<s:VGroup horizontalAlign="right" width="100%">
 			<s:Button id="goButton" 
 					  label="{getGoButtonLabel(_authenticating)}"
 					  width="{contactsAuth.width}"
-					  click="authenticate();"
 					  enabled="{!_authenticating}"/>
 		</s:VGroup>
 	</mx:Form>

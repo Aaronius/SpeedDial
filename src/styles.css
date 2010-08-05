@@ -3,6 +3,7 @@
 @namespace mx "library://ns.adobe.com/flex/mx";
 @namespace r "com.aaronHardy.speedDial.view.renderers.*";
 @namespace c "com.aaronHardy.speedDial.view.components.*";
+@namespace statusMessage "com.aaronHardy.speedDial.view.components.statusMessage.*";
 
 @font-face {
 	src: url("/assets/CALIBRI.TTF");
@@ -36,4 +37,9 @@ r|ContactRenderer
 c|Expander
 {
 	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ExpanderSkin");
+}
+
+statusMessage|StatusMessage
+{
+	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.StatusMessageSkin");
 }

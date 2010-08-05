@@ -26,18 +26,23 @@ package com.aaronHardy.speedDial.view.renderers
 			percentWidth = 100;
 		}
 		
-		private var contact:Contact;
+		private var _data:Object;
+		private var dataChanged:Boolean;
 		
 		public function get data():Object
 		{
-			return contact;
+			return _data;
 		}
 		
 		public function set data(value:Object):void
 		{
-			contact = value as Contact;
-			setNameLabelText();
-			setPhoneLabelText();
+			if (_data != value)
+			{
+				_data = value;
+				setNameLabelText();
+				setPhoneLabelText();
+				setEnabled();
+			}
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void
@@ -54,26 +59,33 @@ package com.aaronHardy.speedDial.view.renderers
 			}
 		}
 		
+		
+		
 		protected function setNameLabelText():void
 		{
-			if (nameLabel && contact)
+			if (nameLabel && Contact(data))
 			{
-				nameLabel.text = contact.name;
+				nameLabel.text = Contact(data).name;
 			}
 		}
 		
 		protected function setPhoneLabelText():void
 		{
-			if (phoneLabel && contact)
+			if (phoneLabel && Contact(data))
 			{
-				phoneLabel.text = '111-111-1111';
+				phoneLabel.text = Contact(data).phone;
 			}
+		}
+		
+		protected function setEnabled():void
+		{
+			enabled = data && Contact(data).phone && Contact(data).phone.length > 0;
 		}
 		
 		override protected function clickHandler(event:MouseEvent):void
 		{
 			super.clickHandler(event);
-			dispatchEvent(new CallEvent(CallEvent.CALL_TRIGGERED, contact));
+			dispatchEvent(new CallEvent(CallEvent.CALL_TRIGGERED, Contact(data)));
 		}
 	}
 }

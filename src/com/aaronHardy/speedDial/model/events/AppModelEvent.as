@@ -9,6 +9,7 @@ package com.aaronHardy.speedDial.model.events
 		public static const CONTACTS_CREDENTIALS_CHANGED:String = 'contactsCredentialsChanged';
 		public static const PHONE_CREDENTIALS_CHANGED:String = 'phoneCredentialsChanged';
 		public static const CLIPBOARD_CHANGED:String = 'clipboardChanged';
+		public static const STATUS_MESSAGE_CHANGED:String = 'statusMessageChanged';
 		
 		public function AppModelEvent(type:String)
 		{

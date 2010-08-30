@@ -2,10 +2,17 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   creationComplete="init();" xmlns:speedDial="com.aaronHardy.speedDial.*" xmlns:login="com.aaronHardy.speedDial.view.login.*" xmlns:contactsAuthentication="com.aaronHardy.speedDial.view.components.contactsAuthentication.*" xmlns:contacts="com.aaronHardy.speedDial.view.views.contacts.*" xmlns:phoneAuthentication="com.aaronHardy.speedDial.view.components.phoneAuthentication.*" xmlns:options="com.aaronHardy.speedDial.view.views.options.*"
-					   showStatusBar="false" xmlns:components="com.aaronHardy.speedDial.view.components.*" xmlns:freeform="com.aaronHardy.speedDial.view.views.freeform.*" xmlns:statusMessage="com.aaronHardy.speedDial.view.components.statusMessage.*">
+					   xmlns:speedDial="com.aaronHardy.speedDial.*" 
+					   xmlns:login="com.aaronHardy.speedDial.view.login.*" 
+					   xmlns:contactsAuthentication="com.aaronHardy.speedDial.view.components.contactsAuthentication.*" xmlns:contacts="com.aaronHardy.speedDial.view.views.contacts.*" xmlns:phoneAuthentication="com.aaronHardy.speedDial.view.components.phoneAuthentication.*" 
+					   xmlns:options="com.aaronHardy.speedDial.view.views.options.*"
+					   xmlns:components="com.aaronHardy.speedDial.view.components.*" 
+					   xmlns:freeform="com.aaronHardy.speedDial.view.views.freeform.*" 
+					   xmlns:statusMessage="com.aaronHardy.speedDial.view.components.statusMessage.*"
+					   showStatusBar="false"> 
+	
 	<fx:Declarations>
-		<speedDial:ApplicationContext contextView="{this}"/>
+		<speedDial:ApplicationContext id="appContext" contextView="{this}"/>
 	</fx:Declarations>
 	
 	<fx:Style source="styles.css"/>

@@ -1,7 +1,12 @@
 package com.aaronHardy.speedDial.service.contactsAuthentication
 {
 	import com.aaronHardy.speedDial.controller.events.ContactsCredentialsEvent;
+	import com.aaronHardy.speedDial.controller.events.StatusMessageEvent;
 	import com.aaronHardy.speedDial.model.AppModel;
+	
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	
 	import net.nobien.webapis.google.accounts.AccountsService;
 	import net.nobien.webapis.google.accounts.AuthResult;
@@ -10,6 +15,9 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 	
 	import org.robotlegs.mvcs.Actor;
 	
+	/**
+	 * @inheritDoc
+	 */
 	public class ContactsAuthenticationService extends Actor implements IContactsAuthenticationService
 	{
 		[Inject]
@@ -19,6 +27,11 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 		protected var username:String;
 		protected var password:String;
 		
+		protected const AUTHENTICATING_MESSAGE:String = 'Authenticating...';
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function authenticate(username:String, password:String):void
 		{
 			this.username = username;
@@ -27,6 +40,8 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 			model.authenticating = true;
 			
 			accountsService = new AccountsService();
+			accountsService.addEventListener(IOErrorEvent.IO_ERROR, authFailureHandler);
+			accountsService.addEventListener(SecurityErrorEvent.SECURITY_ERROR, authFailureHandler);
 			accountsService.addEventListener(AccountsEvent.AUTH_GET_TOKEN, authGetTokenHandler);
 			accountsService.addEventListener(AccountsEvent.AUTH_FAILURE, authFailureHandler);
 			accountsService.clientLogin.authenticate(
@@ -35,6 +50,8 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 					'cp', 
 					'aaronHardy-speedDial-0.1', 
 					ClientLogin.HOSTED_OR_GOOGLE);
+			
+			dispatch(new StatusMessageEvent(StatusMessageEvent.ADD_STATUS, AUTHENTICATING_MESSAGE, 0));
 		}
 		
 		protected function authGetTokenHandler(event:AccountsEvent):void
@@ -42,13 +59,22 @@ package com.aaronHardy.speedDial.service.contactsAuthentication
 			var authResult:AuthResult = AuthResult(event.data);
 			model.authHeader = accountsService.authHeader;
 			dispatch(new ContactsCredentialsEvent(ContactsCredentialsEvent.AUTHENTICATED, username, password));
+			removeLoadingStatus();
 			cleanup();
 		}
 		
-		protected function authFailureHandler(event:AccountsEvent):void
+		protected function authFailureHandler(event:Event):void
 		{
-			trace('AuthenticationService > Failure');
+			removeLoadingStatus();
+			dispatch(new StatusMessageEvent(StatusMessageEvent.ADD_STATUS, 'Authentication failed.'));
 			cleanup();
+		}
+		
+		protected function removeLoadingStatus():void
+		{
+			// We must explicitly remove the status because we specified a 0 duration when
+			// adding the status.
+			dispatch(new StatusMessageEvent(StatusMessageEvent.REMOVE_STATUS, AUTHENTICATING_MESSAGE));
 		}
 		
 		protected function cleanup():void

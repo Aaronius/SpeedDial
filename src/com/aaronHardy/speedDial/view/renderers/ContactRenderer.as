@@ -59,8 +59,6 @@ package com.aaronHardy.speedDial.view.renderers
 			}
 		}
 		
-		
-		
 		protected function setNameLabelText():void
 		{
 			if (nameLabel && Contact(data))

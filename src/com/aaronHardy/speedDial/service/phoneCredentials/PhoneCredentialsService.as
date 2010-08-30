@@ -8,11 +8,17 @@ package com.aaronHardy.speedDial.service.phoneCredentials
 	
 	import org.robotlegs.mvcs.Actor;
 	
+	/**
+	 * @inheritDoc
+	 */
 	public class PhoneCredentialsService extends Actor implements IPhoneCredentialsService
 	{
 		[Inject]
 		public var model:AppModel;
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function saveCredentials(extension:String, pin:String):Boolean
 		{
 			if (EncryptedLocalStore.isSupported)
@@ -29,6 +35,9 @@ package com.aaronHardy.speedDial.service.phoneCredentials
 			return false;
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function loadCredentials():Boolean
 		{
 			if (EncryptedLocalStore.isSupported)

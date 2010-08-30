@@ -15,32 +15,22 @@ package com.aaronHardy.speedDial.view.components.statusMessage
 		
 		protected var skinState:String = 'hide';
 		
-		protected var showTimer:Timer;
-		
-		public function showMessage(text:String, duration:uint):void
+		public function set message(value:String):void
 		{
-			if (messageLabel)
+			if (value && value.length > 0)
 			{
-				messageLabel.text = text;
+				// We only set the message text if it's a real value, otherwise we'll keep it the
+				// way it is while the state changes.  If we were to set it to a null value,
+				// the label would be empty while it was in the process of hiding.
+				messageLabel.text = value;
 				skinState = 'show';
 				invalidateSkinState();
-				
-				if (!showTimer)
-				{
-					showTimer = new Timer(0, 1);
-					showTimer.addEventListener(TimerEvent.TIMER_COMPLETE, showTimer_completeHandler);
-				}
-				
-				showTimer.delay = duration;
-				showTimer.reset();
-				showTimer.start();
 			}
-		}
-
-		protected function showTimer_completeHandler(event:TimerEvent):void
-		{
-			skinState = 'hide';
-			invalidateSkinState();
+			else
+			{
+				skinState = 'hide';
+				invalidateSkinState();
+			}
 		}
 		
 		override protected function getCurrentSkinState():String

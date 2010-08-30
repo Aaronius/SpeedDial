@@ -1,8 +1,8 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
-@namespace r "com.aaronHardy.speedDial.view.renderers.*";
-@namespace c "com.aaronHardy.speedDial.view.components.*";
+@namespace renderers "com.aaronHardy.speedDial.view.renderers.*";
+@namespace components "com.aaronHardy.speedDial.view.components.*";
 @namespace statusMessage "com.aaronHardy.speedDial.view.components.statusMessage.*";
 
 @font-face {
@@ -29,12 +29,12 @@ s|TextInput
 	color:#000000;
 }
 
-r|ContactRenderer
+renderers|ContactRenderer
 {
 	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ButtonSkin");
 }
 
-c|Expander
+components|Expander
 {
 	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ExpanderSkin");
 }

@@ -47,6 +47,8 @@ package com.aaronHardy.speedDial.view.views.options
 		
 		protected function goButton_clickHandler(event:Event):void
 		{
+			// We'll save the phone credentials immediately but the contacts credentials will
+			// only be saved after authentication is successful.
 			eventDispatcher.dispatchEvent(new ContactsCredentialsEvent(
 					ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED,
 					view.contactsAuth.username,

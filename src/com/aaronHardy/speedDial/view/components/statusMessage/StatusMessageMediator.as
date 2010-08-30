@@ -1,6 +1,8 @@
 package com.aaronHardy.speedDial.view.components.statusMessage
 {
 	import com.aaronHardy.speedDial.controller.events.StatusMessageEvent;
+	import com.aaronHardy.speedDial.model.AppModel;
+	import com.aaronHardy.speedDial.model.events.AppModelEvent;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
@@ -9,19 +11,28 @@ package com.aaronHardy.speedDial.view.components.statusMessage
 		[Inject]
 		public var view:StatusMessage;
 		
+		[Inject]
+		public var model:AppModel;
+		
 		override public function onRegister():void
 		{
 			super.onRegister();
 			
 			eventMap.mapListener(
 					eventDispatcher,
-					StatusMessageEvent.SHOW_MESSAGE,
-					showMessageHandler);
+					AppModelEvent.STATUS_MESSAGE_CHANGED,
+					model_statusMessageChangedHandler);
+			updateStatus();
 		}
 		
-		protected function showMessageHandler(event:StatusMessageEvent):void
+		protected function model_statusMessageChangedHandler(event:AppModelEvent):void
 		{
-			view.showMessage(event.text, event.duration);
+			updateStatus();
+		}
+		
+		protected function updateStatus():void
+		{
+			view.message = model.statusMessage;
 		}
 	}
 }

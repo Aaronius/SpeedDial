@@ -12,6 +12,9 @@ package com.aaronHardy.speedDial.service.clipboard
 	
 	import spark.components.WindowedApplication;
 
+	/**
+	 * Watches the clipboard for any phone numbers.  If a number is found, it is set onto the model.
+	 */
 	public class ClipboardService implements IClipboardService
 	{
 		[Inject]
@@ -22,11 +25,19 @@ package com.aaronHardy.speedDial.service.clipboard
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, windowActivateHandler);
 		}
 
+		/**
+		 * Whenever the main window is activated, we'll check the clipboard to see if there's a
+		 * phone number we can use.
+		 */ 
 		protected function windowActivateHandler(event:Event):void
 		{
 			checkClipboard();
 		}
 		
+		/**
+		 * Checks the clipboard for any text.  If there's text, non-numeric characters are removed
+		 * and the number is dropped onto the model.
+		 */
 		protected function checkClipboard():void
 		{
 			var content:String = Clipboard.generalClipboard.getData(

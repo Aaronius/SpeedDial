@@ -10,6 +10,8 @@ package com.aaronHardy.speedDial
 	import com.aaronHardy.speedDial.service.contactsCredentials.*;
 	import com.aaronHardy.speedDial.service.phoneCredentials.IPhoneCredentialsService;
 	import com.aaronHardy.speedDial.service.phoneCredentials.PhoneCredentialsService;
+	import com.aaronHardy.speedDial.service.status.IStatusService;
+	import com.aaronHardy.speedDial.service.status.StatusService;
 	import com.aaronHardy.speedDial.view.components.contactsAuthentication.*;
 	import com.aaronHardy.speedDial.view.components.phoneAuthentication.PhoneAuthentication;
 	import com.aaronHardy.speedDial.view.components.phoneAuthentication.PhoneAuthenticationMediator;
@@ -33,12 +35,14 @@ package com.aaronHardy.speedDial
 			injector.mapSingletonOf(IContactsCredentialsService, ContactsCredentialsService);
 			injector.mapSingletonOf(IPhoneCredentialsService, PhoneCredentialsService);
 			injector.mapSingletonOf(IClipboardService, ClipboardService);
+			injector.mapSingletonOf(IStatusService, StatusService);
 			
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdStartClipboardService, StartupEvent, true);
+			commandMap.mapEvent(StartupEvent.STARTUP, CmdStartStatusService, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdLoadContactsCredentials, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdLoadPhoneCredentials, StartupEvent, true);
-			commandMap.mapEvent(ContactsCredentialsEvent.CREDENTIALS_LOADED, CmdContactsAuthenticate, ContactsCredentialsEvent);
-			commandMap.mapEvent(ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED, CmdContactsAuthenticate, ContactsCredentialsEvent);
+			commandMap.mapEvent(ContactsCredentialsEvent.CREDENTIALS_LOADED, CmdAuthenticateForContacts, ContactsCredentialsEvent);
+			commandMap.mapEvent(ContactsCredentialsEvent.AUTHENTICATION_TRIGGERED, CmdAuthenticateForContacts, ContactsCredentialsEvent);
 			commandMap.mapEvent(ContactsCredentialsEvent.AUTHENTICATED, CmdLoadContacts, ContactsCredentialsEvent);
 			commandMap.mapEvent(ContactsCredentialsEvent.AUTHENTICATED, CmdSaveContactsCredentials, ContactsCredentialsEvent);
 			commandMap.mapEvent(PhoneCredentialsEvent.CREDENTIALS_SAVE_TRIGGERED, CmdSavePhoneCredentials, PhoneCredentialsEvent);

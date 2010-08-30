@@ -33,6 +33,24 @@ package com.aaronHardy.speedDial.model
 		
 		//-------------------------------------------------------------------------
 		
+		private var _statusMessage:String;
+		
+		public function get statusMessage():String
+		{
+			return _statusMessage;
+		}
+		
+		public function set statusMessage(value:String):void
+		{
+			if (_statusMessage != value)
+			{
+				_statusMessage = value;
+				dispatch(new AppModelEvent(AppModelEvent.STATUS_MESSAGE_CHANGED));
+			}
+		}
+		
+		//-------------------------------------------------------------------------
+		
 		private var _contacts:ArrayCollection;
 		
 		public function get contacts():ArrayCollection

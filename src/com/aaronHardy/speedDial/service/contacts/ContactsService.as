@@ -1,10 +1,13 @@
 package com.aaronHardy.speedDial.service.contacts
 {
+	import com.aaronHardy.speedDial.controller.events.StatusMessageEvent;
 	import com.aaronHardy.speedDial.model.AppModel;
 	import com.aaronHardy.speedDial.model.vo.Contact;
 	
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
@@ -21,6 +24,8 @@ package com.aaronHardy.speedDial.service.contacts
 		[Inject]
 		public var model:AppModel;
 		
+		protected const LOADING_MESSAGE:String = 'Loading contacts...';
+		
 		public function loadContacts():void
 		{
 			if (!model.authHeader)
@@ -33,24 +38,33 @@ package com.aaronHardy.speedDial.service.contacts
 			request.method = URLRequestMethod.GET;
 			request.requestHeaders.push(model.authHeader);
 			var loader:URLLoader = new URLLoader();
-			//loader.addEventListener( ProgressEvent.PROGRESS, handleLoaderProgress );
-			//loader.addEventListener( HTTPStatusEvent.HTTP_STATUS, handleLoaderHTTPStatus );
-			//loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, handleLoaderSecurityError );
-			loader.addEventListener( IOErrorEvent.IO_ERROR, handleLoaderIOError );
-			loader.addEventListener( Event.COMPLETE, dataHandler );
-			loader.load( request );
+			loader.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, errorHandler);
+			loader.addEventListener(Event.COMPLETE, dataHandler);
+			loader.load(request);
+			
+			dispatch(new StatusMessageEvent(StatusMessageEvent.ADD_STATUS, LOADING_MESSAGE, 0));
 		}
 		
 		protected function dataHandler(event:Event):void
 		{
+			removeLoadingStatus();
 			var response:XML = new XML(URLLoader( event.target ).data);
 			var contacts:ArrayCollection = parseContacts(response);
 			model.contacts = contacts;
 		}
 		
-		protected function handleLoaderIOError(event:IOErrorEvent):void
+		protected function errorHandler(event:ErrorEvent):void
 		{
-			trace("ContactsService > IOError", event.text);
+			removeLoadingStatus();
+			dispatch(new StatusMessageEvent(StatusMessageEvent.ADD_STATUS, 'Error loading contacts.'));
+		}
+		
+		protected function removeLoadingStatus():void
+		{
+			// We must explicitly remove the status because we specified a 0 duration when
+			// adding the status.
+			dispatch(new StatusMessageEvent(StatusMessageEvent.REMOVE_STATUS, LOADING_MESSAGE));
 		}
 		
 		protected function parseContacts(response:XML):ArrayCollection
@@ -65,7 +79,7 @@ package com.aaronHardy.speedDial.service.contacts
 			{
 				var title:String = StringUtil.trim(entry.ns_atom::title);
 				var phoneNumber:String = StringUtil.trim(entry.ns_gd::phoneNumber);
-				if (title.length > 0 && phoneNumber.length > 0)
+				if (title.length > 0)
 				{
 					var contact:Contact = new Contact();
 					contact.name = title;

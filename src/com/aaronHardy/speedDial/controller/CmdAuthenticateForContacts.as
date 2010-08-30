@@ -5,7 +5,7 @@ package com.aaronHardy.speedDial.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class CmdContactsAuthenticate extends Command
+	public class CmdAuthenticateForContacts extends Command
 	{
 		[Inject]
 		public var event:ContactsCredentialsEvent;

@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" 
-		xmlns:mx="library://ns.adobe.com/flex/mx">
-	<!-- host component -->
-	<fx:Metadata>
-		[HostComponent("com.aaronHardy.speedDial.view.renderers.ContactRenderer")]
-	</fx:Metadata>
-	<s:Button id="callButton" label="" top="5" right="4" bottom="0" left="3" skinClass="com.aaronHardy.speedDial.view.skin.ButtonSkin"/>
-	<s:Label id="nameLabel" top="12" left="10" right="10" mouseEnabled="false" maxDisplayedLines="1" fontSize="20" color="0xEEEEEE" alpha=".9"/>
-	<s:Label id="phoneLabel" bottom="7" left="10" right="10" top="{nameLabel.y + nameLabel.height}" mouseEnabled="false" maxDisplayedLines="1" fontSize="9" color="0xEEEEEE" alpha=".9"/>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2008" xmlns:d="http://ns.adobe.com/fxg/2008/dt">
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:transitions>
+		<s:Transition autoReverse="true">
+			<s:Parallel duration="150">
+				<s:AnimateColor targets="{[bgColor, strokeColor, nameLabel, phoneLabel]}"/>
+				<s:Fade targets="{[clickToCallBg, clickToCallLabel]}"/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:Rect x="0.5" y="0.5" ai:knockout="0" width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor id="bgColor" color="#131313" color.over="#a9e833"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke id="strokeColor" color="#0c0d0d" color.over="#8eaf1a" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect x.disabled="1.5" right.up="1" y.disabled="1.5" bottom.up="1" width.disabled="100%" left.up="1" height.disabled="100%" top.up="1" right.over="1" left.over="1" top.over="1" bottom.over="1" right.down="1" left.down="1" top.down="1" bottom.down="1">
+		<s:stroke>
+			<s:SolidColorStroke color="#262626" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Label id="nameLabel" top="5" left="10" right="10" mouseEnabled="false" maxDisplayedLines="1" fontSize="20" color="#EEEEEE" color.over="#000000" alpha=".9"/>
+	<s:Label id="phoneLabel" bottom="5" left="10" right="10" top="{nameLabel.y + nameLabel.height}" mouseEnabled="false" maxDisplayedLines="1" fontSize="9" color="#EEEEEE" color.over="#000000" alpha=".9"/>
+	
+	<s:Rect id="clickToCallBg" includeIn="over,down" right="1" bottom="1" width="{clickToCallLabel.width + 6}" height="{clickToCallLabel.height + 4}"
+		 topLeftRadiusX="5" topLeftRadiusY="5">
+		<s:fill>
+			<s:SolidColor color="#0c0d0d" alpha=".7"/>
+		</s:fill>
+	</s:Rect>
+	<s:Label id="clickToCallLabel" includeIn="over,down" text="Click to call" right="4" bottom="2"/>
 </s:Skin>

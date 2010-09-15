@@ -31,7 +31,7 @@ s|TextInput
 
 renderers|ContactRenderer
 {
-	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ButtonSkin");
+	skinClass: ClassReference("com.aaronHardy.speedDial.view.skin.ContactRendererSkin");
 }
 
 components|Expander

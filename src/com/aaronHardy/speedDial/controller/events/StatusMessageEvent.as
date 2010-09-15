@@ -18,9 +18,10 @@ package com.aaronHardy.speedDial.controller.events
 		 */
 		public var duration:uint;
 		
-		public function StatusMessageEvent(type:String, message:String, duration:uint=3000)
+		public function StatusMessageEvent(type:String, message:String, duration:uint=3000, 
+				bubbles:Boolean=false)
 		{
-			super(type);
+			super(type, bubbles);
 			
 			this.message = message;
 			this.duration = duration;
@@ -28,7 +29,7 @@ package com.aaronHardy.speedDial.controller.events
 		
 		override public function clone():Event
 		{
-			return new StatusMessageEvent(type, message, duration);
+			return new StatusMessageEvent(type, message, duration, bubbles);
 		}
 	}
 }

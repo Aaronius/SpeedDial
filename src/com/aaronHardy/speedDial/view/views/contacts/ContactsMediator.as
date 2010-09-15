@@ -1,8 +1,11 @@
 package com.aaronHardy.speedDial.view.views.contacts
 {
+	import com.aaronHardy.speedDial.controller.events.CallEvent;
+	import com.aaronHardy.speedDial.controller.events.StatusMessageEvent;
 	import com.aaronHardy.speedDial.model.AppModel;
 	import com.aaronHardy.speedDial.model.events.AppModelEvent;
-	import com.aaronHardy.speedDial.controller.events.CallEvent;
+	
+	import flash.events.Event;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
@@ -26,7 +29,11 @@ package com.aaronHardy.speedDial.view.views.contacts
 			
 			eventMap.mapListener(view,
 					CallEvent.CALL_TRIGGERED,
-					view_callTriggeredHandler);
+					redispatch);
+			
+			eventMap.mapListener(view,
+					StatusMessageEvent.ADD_STATUS,
+					redispatch);
 		}
 		
 		protected function model_contactsChangedHandler(event:AppModelEvent):void
@@ -39,7 +46,7 @@ package com.aaronHardy.speedDial.view.views.contacts
 			view.contacts = model.contacts;
 		}
 
-		protected function view_callTriggeredHandler(event:CallEvent):void
+		protected function redispatch(event:Event):void
 		{
 			dispatch(event);
 		}

@@ -9,7 +9,21 @@
 					   xmlns:components="com.aaronHardy.speedDial.view.components.*" 
 					   xmlns:freeform="com.aaronHardy.speedDial.view.views.freeform.*" 
 					   xmlns:statusMessage="com.aaronHardy.speedDial.view.components.statusMessage.*"
-					   showStatusBar="false"> 
+					   showStatusBar="false"
+					   invoke="invokeHandler(event)"> 
+
+	<fx:Script>
+		<![CDATA[
+			protected function invokeHandler(event:InvokeEvent):void
+			{
+				if (event.arguments.length > 0)
+				{
+					// Store the call url if one is passed in as an argument.
+					appContext.appModel.placeCallUrl = event.arguments[0];
+				}
+			}
+		]]>
+	</fx:Script>
 	
 	<fx:Declarations>
 		<speedDial:ApplicationContext id="appContext" contextView="{this}"/>

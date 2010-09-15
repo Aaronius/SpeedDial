@@ -1,8 +1,9 @@
 package com.aaronHardy.speedDial.view.renderers
 {
 	import com.aaronHardy.speedDial.controller.events.CallEvent;
+	import com.aaronHardy.speedDial.controller.events.StatusMessageEvent;
 	import com.aaronHardy.speedDial.model.vo.Contact;
-	import com.aaronHardy.speedDial.view.skin.ButtonSkin;
+	import com.aaronHardy.speedDial.view.skin.ContactRendererSkin;
 	
 	import flash.events.MouseEvent;
 	
@@ -41,7 +42,6 @@ package com.aaronHardy.speedDial.view.renderers
 				_data = value;
 				setNameLabelText();
 				setPhoneLabelText();
-				setEnabled();
 			}
 		}
 		
@@ -71,19 +71,30 @@ package com.aaronHardy.speedDial.view.renderers
 		{
 			if (phoneLabel && Contact(data))
 			{
-				phoneLabel.text = Contact(data).phone;
+				if (Contact(data).phone && Contact(data).phone.length > 0)
+				{
+					phoneLabel.text = Contact(data).phone;
+				}
+				else
+				{
+					phoneLabel.text = 'No number listed.';
+				}
 			}
-		}
-		
-		protected function setEnabled():void
-		{
-			enabled = data && Contact(data).phone && Contact(data).phone.length > 0;
 		}
 		
 		override protected function clickHandler(event:MouseEvent):void
 		{
 			super.clickHandler(event);
-			dispatchEvent(new CallEvent(CallEvent.CALL_TRIGGERED, Contact(data)));
+			
+			if (data && Contact(data).phone && Contact(data).phone.length > 0)
+			{
+				dispatchEvent(new CallEvent(CallEvent.CALL_TRIGGERED, Contact(data)));
+			}
+			else
+			{
+				dispatchEvent(new StatusMessageEvent(StatusMessageEvent.ADD_STATUS,
+						'No number listed.', 3000, true));
+			}
 		}
 	}
 }

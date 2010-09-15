@@ -37,6 +37,7 @@ package com.aaronHardy.speedDial
 			injector.mapSingletonOf(IClipboardService, ClipboardService);
 			injector.mapSingletonOf(IStatusService, StatusService);
 			
+			commandMap.mapEvent(StartupEvent.STARTUP, CmdCheckForUpdate, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdStartClipboardService, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdStartStatusService, StartupEvent, true);
 			commandMap.mapEvent(StartupEvent.STARTUP, CmdLoadContactsCredentials, StartupEvent, true);
@@ -56,6 +57,14 @@ package com.aaronHardy.speedDial
 			mediatorMap.mapView(StatusMessage, StatusMessageMediator);
 			
 			dispatchEvent(new StartupEvent(StartupEvent.STARTUP));
+		}
+		
+		/**
+		 * A simple accessor for the main app.
+		 */
+		public function get appModel():AppModel
+		{
+			return AppModel(injector.getInstance(AppModel));
 		}
 	}
 }

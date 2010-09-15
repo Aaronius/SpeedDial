@@ -136,5 +136,18 @@ package com.aaronHardy.speedDial.model
 				dispatch(new AppModelEvent(AppModelEvent.CLIPBOARD_CHANGED));
 			}
 		}
+		
+		/**
+		 * A URL used for placing a call.  This can be provided to the app by passing in an 
+		 * argument when launching the app.  It must contain three specific string that will be
+		 * replaced when placing a call:
+		 * {extension} will be replaced by the user's stored phone extenstion.
+		 * {destination} will be replaced by the phone number the user is calling.
+		 * {pin} will be replaced by the user's stored phone pin. 
+		 */
+		public var placeCallUrl:String = 'https://phones.securerain.com/api?cmd=call&' +
+				'dial_first={extension}' +  
+				'&dial_second={destination}' + 
+				'&password={pin}';
 	}
 }

@@ -4,6 +4,7 @@
 @namespace renderers "com.aaronHardy.speedDial.view.renderers.*";
 @namespace components "com.aaronHardy.speedDial.view.components.*";
 @namespace statusMessage "com.aaronHardy.speedDial.view.components.statusMessage.*";
+@namespace saturnboy "com.saturnboy.*";
 
 @font-face {
 	src: url("/assets/CALIBRI.TTF");
@@ -26,7 +27,14 @@ s|Window
 
 s|TextInput
 {
-	color:#000000;
+	contentBackgroundColor: #4c4c4c;
+	color: #ffffff;
+	borderColor: #ffffff;
+}
+
+saturnboy|PromptingTextInput
+{
+	skinClass: ClassReference("com.saturnboy.PromptingTextInputSkin");
 }
 
 renderers|ContactRenderer

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	minWidth="100" minHeight="22"
+	alpha.disabled="0.5"
+	blendMode="normal">
+	
+	<fx:Metadata>
+		[HostComponent("com.saturnboy.PromptingTextInput")]
+	</fx:Metadata> 
+	
+	<fx:Script>
+		private var paddingChanged:Boolean;
+		
+		/* Define the skin elements that should not be colorized. */
+		static private const exclusions:Array = ["background", "textDisplay"];
+		
+		/**
+		 * @private
+		 */   
+		override public function get colorizeExclusions():Array {return exclusions;}
+		
+		/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
+		static private const contentFill:Array = ["bgFill"];
+		
+		/**
+		 *  @private
+		 */
+		override public function get contentItems():Array {return contentFill};
+		
+		/**
+		 *  @private
+		 */
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			if (paddingChanged)
+			{
+				updatePadding();
+				paddingChanged = false;
+			}
+		}
+		
+		/**
+		 * @private
+		 */
+		override protected function initializationComplete():void
+		{
+			useChromeColor = true;
+			super.initializationComplete();
+		}
+		
+		/**
+		 *  @private
+		 */
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+		{
+			if (getStyle("borderVisible") == true)
+			{
+				border.visible = true;
+				shadow.visible = true;
+				background.left = background.top = background.right = background.bottom = 1;
+				textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 1;
+			}
+			else
+			{
+				border.visible = false;
+				shadow.visible = false;
+				background.left = background.top = background.right = background.bottom = 0;
+				textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 0;
+			}
+			
+			borderStroke.color = getStyle("borderColor");
+			borderStroke.alpha = getStyle("borderAlpha");
+			
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+		}
+		
+		/**
+		 *  @private
+		 */
+		private function updatePadding():void
+		{
+			if (!textDisplay)
+				return;
+			
+			// Push padding styles into the textDisplay
+			var padding:Number;
+			
+			padding = getStyle("paddingLeft");
+			if (textDisplay.getStyle("paddingLeft") != padding)
+				textDisplay.setStyle("paddingLeft", padding);
+			
+			padding = getStyle("paddingTop");
+			if (textDisplay.getStyle("paddingTop") != padding)
+				textDisplay.setStyle("paddingTop", padding);
+			
+			padding = getStyle("paddingRight");
+			if (textDisplay.getStyle("paddingRight") != padding)
+				textDisplay.setStyle("paddingRight", padding);
+			
+			padding = getStyle("paddingBottom");
+			if (textDisplay.getStyle("paddingBottom") != padding)
+				textDisplay.setStyle("paddingBottom", padding);
+		}
+		
+		/**
+		 *  @private
+		 */
+		override public function styleChanged(styleProp:String):void
+		{
+			var allStyles:Boolean = !styleProp || styleProp == "styleName";
+			
+			super.styleChanged(styleProp);
+			
+			if (allStyles || styleProp.indexOf("padding") == 0)
+			{
+				paddingChanged = true;
+				invalidateProperties();
+			}
+		}
+	</fx:Script>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="prompting"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- border --> 
+	<!--- @private -->
+	<s:Rect left="0" right="0" top="0" bottom="0" id="border">
+		<s:stroke>     
+			<!--- @private -->
+			<s:SolidColorStroke id="borderStroke" weight="1" />
+		</s:stroke>
+	</s:Rect>
+	
+	<!-- fill -->
+	<!--- Defines the appearance of the TextInput component's background. -->
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1">
+		<s:fill>
+			<!--- @private Defines the background fill color. -->
+			<s:SolidColor id="bgFill" color="0xFFFFFF" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- shadow -->
+	<!--- @private -->
+	<s:Rect left="1" top="1" right="1" height="1" id="shadow">
+		<s:fill>
+			<s:SolidColor color="0x000000" alpha="0.12" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- text -->
+	<s:RichEditableText id="textDisplay" left="4" right="24" top="1" bottom="0"
+						verticalAlign="middle" />
+	
+	<!-- prompt -->
+	<s:Label id="promptDisplay" left="4" right="4" top="1" bottom="0" includeIn="prompting"
+			 maxDisplayedLines="1"
+			 verticalAlign="middle" />
+</s:SparkSkin>

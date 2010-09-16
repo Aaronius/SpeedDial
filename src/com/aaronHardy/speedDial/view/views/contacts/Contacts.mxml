@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:controls="com.andymcintosh.controls.*"
+		xmlns:components="components.*"
+		xmlns:saturnboy="com.saturnboy.*"
+		visible="{_contacts != null}">
 	<s:layout>
-		<s:VerticalLayout/>
+		<s:VerticalLayout gap="0"/>
 	</s:layout>
 	
 	<fx:Declarations>
@@ -13,15 +17,48 @@
 	<fx:Script>
 		<![CDATA[
 			import com.aaronHardy.speedDial.model.vo.Contact;
+			import com.saturnboy.PromptingTextInputSkin;
 			
 			import mx.collections.ArrayCollection;
 			
 			[Bindable]
-			public var contacts:ArrayCollection;
+			private var _contacts:ArrayCollection;
+			
+			public function set contacts(value:ArrayCollection):void
+			{
+				if (_contacts)
+				{
+					_contacts.filterFunction = null;
+					_contacts.refresh();
+				}
+				
+				_contacts = value;
+				
+				if (_contacts)
+				{
+					_contacts.filterFunction = filterContact;
+					_contacts.refresh();
+				}
+			}
+			
+			protected function updateContactsFilter():void
+			{
+				_contacts.refresh();
+			}
+			
+			protected function filterContact(obj:Object):Boolean
+			{
+				return Contact(obj).name.toLowerCase().indexOf(filterInput.text.toLowerCase()) > -1;
+			}
 		]]>
 	</fx:Script>
+	<s:Group width="100%">
+		<saturnboy:PromptingTextInput id="filterInput" top="5" right="5" bottom="5" left="5"
+				prompt="Search contacts"
+				change="updateContactsFilter();"/>
+	</s:Group>
 	<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
-		<s:DataGroup dataProvider="{contacts}" 
+		<s:DataGroup dataProvider="{_contacts}" 
 				itemRenderer="com.aaronHardy.speedDial.view.renderers.ContactRenderer">
 			<s:layout>
 				<s:VerticalLayout useVirtualLayout="true" gap="0"/>

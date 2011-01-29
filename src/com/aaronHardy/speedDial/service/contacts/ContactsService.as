@@ -78,13 +78,15 @@ package com.aaronHardy.speedDial.service.contacts
 			for each (var entry:XML in entries)
 			{
 				var title:String = StringUtil.trim(entry.ns_atom::title);
-				var phoneNumber:String = StringUtil.trim(entry.ns_gd::phoneNumber);
 				if (title.length > 0)
 				{
-					var contact:Contact = new Contact();
-					contact.name = title;
-					contact.phone = phoneNumber;
-					contacts.addItem(contact);
+					for each (var phoneNumber:String in entry.ns_gd::phoneNumber)
+					{
+						var contact:Contact = new Contact();
+						contact.name = title;
+						contact.phone = StringUtil.trim(phoneNumber);
+						contacts.addItem(contact);
+					}
 				}
 			}
 			
